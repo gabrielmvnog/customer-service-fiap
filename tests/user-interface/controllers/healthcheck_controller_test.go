@@ -5,13 +5,15 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gabrielmvnog/customer-service-fiap/src/server"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHealthcheck(t *testing.T) {
-	router := server.SetupRouter()
+	db, _, _ := sqlmock.New()
+	router := server.SetupRouter(db)
 
 	recorder := httptest.NewRecorder()
 

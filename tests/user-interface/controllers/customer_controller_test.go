@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/gabrielmvnog/customer-service-fiap/src/server"
 	"github.com/gabrielmvnog/customer-service-fiap/src/user-interface/dtos"
 
@@ -14,7 +15,8 @@ import (
 )
 
 func TestCustomerRegistration(t *testing.T) {
-	router := server.SetupRouter()
+	db, _, _ := sqlmock.New()
+	router := server.SetupRouter(db)
 
 	recorder := httptest.NewRecorder()
 
