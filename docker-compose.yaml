@@ -1,5 +1,13 @@
-version: '3.10'
-
 services:
+
   db:
-    
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: fiap
+      POSTGRES_PASSWORD: fiap
+      POSTGRES_DB: customers
+    ports:
+      - 5432:5432
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/1-schema.sql

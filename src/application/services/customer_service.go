@@ -9,8 +9,10 @@ type CustomerService struct {
 	Repository ports.ICustomerRepository
 }
 
-func NewCustomerService() *CustomerService {
-	return &CustomerService{}
+func NewCustomerService(repository ports.ICustomerRepository) *CustomerService {
+	return &CustomerService{
+		Repository: repository,
+	}
 }
 
 func (customerService CustomerService) CreateCustomer(newCustomer dtos.CreateCustomerRequest) dtos.CreateCustomerResponse {
