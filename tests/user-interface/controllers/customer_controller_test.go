@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -25,11 +26,11 @@ func SetupTestCustomerRoutes(customerService ports.ICustomerService) *gin.Engine
 	return router
 }
 
-func TestCustomerRegistration(t *testing.T) {
+func TestCustomerRegistrationShouldCreate(t *testing.T) {
 	controller := gomock.NewController(t)
 
 	mock_service := mock_ports.NewMockICustomerService(controller)
-	mock_service.EXPECT().CreateCustomer(gomock.Any()).Return(&dtos.CreateCustomerResponse{Id: "1"})
+	mock_service.EXPECT().CreateCustomer(gomock.Any()).Return(&dtos.CreateCustomerResponse{Id: "1"}, nil)
 
 	router := SetupTestCustomerRoutes(mock_service)
 
@@ -42,4 +43,23 @@ func TestCustomerRegistration(t *testing.T) {
 	router.ServeHTTP(recorder, req)
 
 	assert.Equal(t, 201, recorder.Code)
+}
+
+func TestCustomerRegistrationShouldReturnBadRequest(t *testing.T) {
+	controller := gomock.NewController(t)
+
+	mock_service := mock_ports.NewMockICustomerService(controller)
+	mock_service.EXPECT().CreateCustomer(gomock.Any()).Return(&dtos.CreateCustomerResponse{}, errors.New("invalid data"))
+
+	router := SetupTestCustomerRoutes(mock_service)
+
+	recorder := httptest.NewRecorder()
+
+	newCustomer := dtos.CreateCustomerRequest{Name: "testing 123"}
+	customerJson, _ := json.Marshal(newCustomer)
+
+	req, _ := http.NewRequest("POST", "/v1/customers", strings.NewReader(string(customerJson)))
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, 400, recorder.Code)
 }
