@@ -7,6 +7,7 @@ import (
 
 func main() {
 	db := config.SetupDatabase()
+	defer db.Close()
 
 	router := server.SetupRouter(db)
 
