@@ -1,6 +1,11 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"net/mail"
+
+	"github.com/mvrilo/go-cpf"
+)
 
 type Customer struct {
 	Name           string
@@ -9,7 +14,8 @@ type Customer struct {
 }
 
 func validateDocumentNumber(documentNumber string) error {
-	if documentNumber == "" {
+	_, err := cpf.Valid(documentNumber)
+	if documentNumber == "" || err != nil {
 		return errors.New("invalid document number")
 	}
 
@@ -17,7 +23,8 @@ func validateDocumentNumber(documentNumber string) error {
 }
 
 func validateEmail(email string) error {
-	if email == "" {
+	_, err := mail.ParseAddress(email)
+	if email == "" || err != nil {
 		return errors.New("invalid email")
 	}
 
@@ -26,7 +33,7 @@ func validateEmail(email string) error {
 
 func validateName(email string) error {
 	if email == "" {
-		return errors.New("invalid email")
+		return errors.New("invalid name")
 	}
 
 	return nil
