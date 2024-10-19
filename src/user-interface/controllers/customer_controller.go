@@ -34,3 +34,19 @@ func (customerController CustomerController) CustomerRegistration(context *gin.C
 
 	context.IndentedJSON(http.StatusCreated, &response)
 }
+
+func (customerController CustomerController) FindCustomerByDocumentNumber(context *gin.Context) {
+	documentNumber := context.Query("document_number")
+	if documentNumber == "" {
+		context.IndentedJSON(http.StatusBadRequest, &dtos.ErrorResponse{Message: "bad request"})
+		return
+	}
+
+	response, err := customerController.CustomerService.FindCustomerByDocumentNumber(documentNumber)
+	if err != nil {
+		context.IndentedJSON(http.StatusNotFound, &dtos.ErrorResponse{Message: "customer not found"})
+		return
+	}
+
+	context.IndentedJSON(http.StatusOK, &response)
+}

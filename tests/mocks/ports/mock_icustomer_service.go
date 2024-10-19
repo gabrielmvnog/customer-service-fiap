@@ -54,3 +54,18 @@ func (mr *MockICustomerServiceMockRecorder) CreateCustomer(arg0 any) *gomock.Cal
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCustomer", reflect.TypeOf((*MockICustomerService)(nil).CreateCustomer), arg0)
 }
+
+// FindCustomerByDocumentNumber mocks base method.
+func (m *MockICustomerService) FindCustomerByDocumentNumber(arg0 string) (*dtos.FindCustomerResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindCustomerByDocumentNumber", arg0)
+	ret0, _ := ret[0].(*dtos.FindCustomerResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindCustomerByDocumentNumber indicates an expected call of FindCustomerByDocumentNumber.
+func (mr *MockICustomerServiceMockRecorder) FindCustomerByDocumentNumber(arg0 any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindCustomerByDocumentNumber", reflect.TypeOf((*MockICustomerService)(nil).FindCustomerByDocumentNumber), arg0)
+}

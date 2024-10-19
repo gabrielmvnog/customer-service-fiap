@@ -63,3 +63,35 @@ func TestCustomerRegistrationShouldReturnBadRequest(t *testing.T) {
 
 	assert.Equal(t, 400, recorder.Code)
 }
+
+func TestCustomerFindByDocumentNumberShouldReturnSuccess(t *testing.T) {
+	controller := gomock.NewController(t)
+
+	mock_service := mock_ports.NewMockICustomerService(controller)
+	mock_service.EXPECT().FindCustomerByDocumentNumber("12345678910").Return(&dtos.FindCustomerResponse{}, nil)
+
+	router := SetupTestCustomerRoutes(mock_service)
+
+	recorder := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/customers?document_number=12345678910", nil)
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, 200, recorder.Code)
+}
+
+func TestCustomerFindByDocumentNumberShouldReturnNotFound(t *testing.T) {
+	controller := gomock.NewController(t)
+
+	mock_service := mock_ports.NewMockICustomerService(controller)
+	mock_service.EXPECT().FindCustomerByDocumentNumber("12345678910").Return(&dtos.FindCustomerResponse{}, errors.New("customer not found"))
+
+	router := SetupTestCustomerRoutes(mock_service)
+
+	recorder := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/customers?document_number=12345678910", nil)
+	router.ServeHTTP(recorder, req)
+
+	assert.Equal(t, 404, recorder.Code)
+}

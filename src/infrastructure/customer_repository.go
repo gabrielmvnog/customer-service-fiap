@@ -33,3 +33,17 @@ func (customerRepository CustomerRepository) InsertCustomer(newCustomer *domain.
 
 	return customerId
 }
+
+func (customerRepository CustomerRepository) FindCustomerByDocumentNumber(documentNumber string) (*domain.Customer, error) {
+	var customer domain.Customer
+
+	err := customerRepository.Database.QueryRow(
+		`SELECT name, email, documentNumber FROM customers WHERE documentNumber=$1`,
+		documentNumber,
+	).Scan(&customer.Name, &customer.Email, &customer.DocumentNumber)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return &customer, nil
+}

@@ -13,5 +13,6 @@ func SetupCustomerRoutes(router *gin.Engine, customerService ports.ICustomerServ
 	var routerGroup gin.RouterGroup = *router.Group("/v1")
 	{
 		routerGroup.POST("/customers", customerController.CustomerRegistration)
+		routerGroup.GET("/customers", customerController.FindCustomerByDocumentNumber)
 	}
 }

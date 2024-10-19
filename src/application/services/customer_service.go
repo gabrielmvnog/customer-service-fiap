@@ -35,3 +35,16 @@ func (customerService CustomerService) CreateCustomer(newCustomer *dtos.CreateCu
 
 	return &dtos.CreateCustomerResponse{Id: strconv.Itoa(customerId)}, nil
 }
+
+func (customerService CustomerService) FindCustomerByDocumentNumber(documentNumber string) (*dtos.FindCustomerResponse, error) {
+	customer, err := customerService.Repository.FindCustomerByDocumentNumber(documentNumber)
+	if err != nil {
+		return &dtos.FindCustomerResponse{}, errors.New("customer not found")
+	}
+
+	return &dtos.FindCustomerResponse{
+		Name:           customer.Name,
+		Email:          customer.Email,
+		DocumentNumber: customer.DocumentNumber,
+	}, nil
+}
