@@ -14,7 +14,7 @@ import (
 func TestCustomerInsertion(t *testing.T) {
 	db, mock, _ := sqlmock.New()
 
-	repository := infrastructure.CustomerRepository{Database: db}
+	repository := infrastructure.NewCustomerRepository(db)
 	customer := domain.Customer{
 		Name:           "test",
 		Email:          "test@test.com",

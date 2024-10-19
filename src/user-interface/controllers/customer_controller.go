@@ -26,7 +26,7 @@ func (customerController CustomerController) CustomerRegistration(context *gin.C
 		return
 	}
 
-	var response dtos.CreateCustomerResponse = customerController.CustomerService.CreateCustomer(newCustomer)
+	var response *dtos.CreateCustomerResponse = customerController.CustomerService.CreateCustomer(&newCustomer)
 
-	context.IndentedJSON(http.StatusCreated, response)
+	context.IndentedJSON(http.StatusCreated, &response)
 }
