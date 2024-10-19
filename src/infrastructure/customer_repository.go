@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/gabrielmvnog/customer-service-fiap/src/application/ports"
 	domain "github.com/gabrielmvnog/customer-service-fiap/src/domain/models"
 )
 
@@ -11,7 +12,7 @@ type CustomerRepository struct {
 	Database *sql.DB
 }
 
-func NewCustomerRepository(db *sql.DB) *CustomerRepository {
+func NewCustomerRepository(db *sql.DB) ports.ICustomerRepository {
 	return &CustomerRepository{
 		Database: db,
 	}
