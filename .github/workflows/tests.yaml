@@ -1,0 +1,22 @@
+name: Tests
+
+on:
+    push:
+      branches:
+        - main
+      paths-ignore:
+        - '**.md'
+    pull_request:
+      paths-ignore:
+        - '**.md'
+
+jobs:
+    unit-test:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-go@v5
+          with:
+            go-version: 1.21.x
+            cache: false
+        - run: make test
