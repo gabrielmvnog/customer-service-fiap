@@ -41,11 +41,12 @@ func (m *MockICustomerService) EXPECT() *MockICustomerServiceMockRecorder {
 }
 
 // CreateCustomer mocks base method.
-func (m *MockICustomerService) CreateCustomer(arg0 *dtos.CreateCustomerRequest) *dtos.CreateCustomerResponse {
+func (m *MockICustomerService) CreateCustomer(arg0 *dtos.CreateCustomerRequest) (*dtos.CreateCustomerResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateCustomer", arg0)
 	ret0, _ := ret[0].(*dtos.CreateCustomerResponse)
-	return ret0
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // CreateCustomer indicates an expected call of CreateCustomer.

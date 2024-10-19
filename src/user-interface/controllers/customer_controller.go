@@ -26,7 +26,11 @@ func (customerController CustomerController) CustomerRegistration(context *gin.C
 		return
 	}
 
-	var response *dtos.CreateCustomerResponse = customerController.CustomerService.CreateCustomer(&newCustomer)
+	response, err := customerController.CustomerService.CreateCustomer(&newCustomer)
+	if err != nil {
+		context.IndentedJSON(http.StatusBadRequest, &dtos.ErrorResponse{Message: "invalid data"})
+		return
+	}
 
 	context.IndentedJSON(http.StatusCreated, &response)
 }
